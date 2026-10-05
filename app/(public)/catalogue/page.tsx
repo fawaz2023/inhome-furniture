@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     url: '/catalogue',
     images: [
       {
-        url: '/og-default.jpg',
+        url: '/og-catalogue.jpg',
         width: 1200,
         height: 630,
-        alt: 'INHOME FURNITURE Full Catalogue Kangeyam',
+        alt: 'INHOME FURNITURE Full Nilambur Teak Catalogue Kangeyam',
       },
     ],
   },
