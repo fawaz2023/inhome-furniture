@@ -61,6 +61,51 @@ At the end of every session, append a new entry at the **top** (most recent firs
 
 ## Session Entries (Most Recent First)
 
+### Session 2026-10-05 — Live Vercel Production Deployment & Supabase Cloud Integration
+
+#### ✅ Completed This Session
+- `[NEW]` `.vercelignore` — Excluded documentation, design audit mockups, Playwright scripts, and local agent files to ensure lightning-fast and reliable Vercel deployments (payload 20.8 KB).
+- `[CONFIG]` Linked Vercel project `inhome-furniture` and configured production environment variables directly via Vercel CLI:
+  - `NEXT_PUBLIC_SUPABASE_URL` = `https://sdjcyedbsspxjmykslpn.supabase.co`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `SUPABASE_SERVICE_ROLE_KEY`
+- `[DEPLOY]` Production build executed on Vercel: 44/44 Next.js 15 pages generated statically/ISR in 44s.
+- `[DOMAIN]` Live production URLs deployed and aliased:
+  - **Production:** https://inhome-furniture-ebon.vercel.app
+  - **Deployment:** https://inhome-furniture-kqejkmlzq-cafe-coach.vercel.app
+
+#### 🧪 Verified Working
+- [x] `GET https://inhome-furniture-ebon.vercel.app/` returned 200 OK (360 KB HTML).
+- [x] `GET https://inhome-furniture-ebon.vercel.app/gallery` returned 200 OK (99.5 KB HTML).
+- [x] `GET https://inhome-furniture-ebon.vercel.app/about` returned 200 OK (140 KB HTML).
+- [x] `GET https://inhome-furniture-ebon.vercel.app/sofas` returned 200 OK (97 KB HTML).
+- [x] `GET https://inhome-furniture-ebon.vercel.app/api/keep-alive` returned 200 OK (`{"success":true,"mode":"supabase","count":17,"latencyMs":742}`).
+- [x] `GET https://inhome-furniture-ebon.vercel.app/api/search-index` returned 200 OK with full live product catalogue index.
+- [x] Verified mobile (390×844) and desktop (1440×900) live screenshots with zero visual glitches.
+- [x] P0 Ground Truth in `lib/whatsapp.ts` remains 100% untouched.
+
+#### ❌ Known Issues / Partial Work
+- None. Site is 100% live on Vercel connected to Supabase cloud.
+
+#### 🐛 Bugs Found This Session
+- None.
+
+#### ⏭️ Exact Next Step
+- **Task:** Share live production URLs with the owner for review. When custom domain (`inhomefurniture.in`) is ready, add domain in Vercel project settings.
+- **URL:** https://inhome-furniture-ebon.vercel.app
+
+#### 📋 TBD Items Still Pending From Owner
+- Phone/WhatsApp number: ⏳ Pending (currently using placeholder +919999999999)
+- Opening hours: ⏳ Pending (currently using Mon - Sat 9:00 AM - 6:00 PM)
+- Logo file: ⏳ Pending (currently using typographic wordmark)
+- Custom Domain: ⏳ Pending (inhomefurniture.in)
+
+#### 🔒 Do Not Touch in Next Session
+- `lib/whatsapp.ts` — P0 ground truth immutable.
+- `app/*`, `components/*`, `supabase/*` — Production verified.
+
+---
+
 ### Session 2026-10-05 — Audit Fixes Applied to /mockup-preview (13/13)
 
 #### Completed This Session
