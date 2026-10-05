@@ -187,6 +187,18 @@ export default function Header() {
             font-size: 1.05rem;
           }
         }
+
+        @media (max-width: 420px) {
+          .nav-item-secondary {
+            display: none;
+          }
+          .header-nav {
+            gap: 0.35rem;
+          }
+          .nav-item {
+            padding: 0.4rem 0.55rem;
+          }
+        }
       `}</style>
     </header>
   );

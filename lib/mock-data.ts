@@ -1208,8 +1208,8 @@ export function getMockNewArrivals(): Product[] {
 export const MOCK_SETTINGS: Settings = {
   key: 'general',
   shop_name: 'INHOME FURNITURE',
-  phone: '+919999999999',
-  whatsapp_number: '919999999999',
+  phone: process.env.NEXT_PUBLIC_SHOP_PHONE || '+919999999999',
+  whatsapp_number: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919999999999',
   address: 'TCL Tower, 3/43A, Chennimalai Rd, Kangeyam, Tamil Nadu 638701',
   google_maps_url: 'https://maps.google.com/?q=INHOME+FURNITURE+Kangeyam',
   google_rating: 4.8,
