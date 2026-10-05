@@ -1,0 +1,38 @@
+name: Supabase Keep-Alive Ping
+
+on:
+  schedule:
+    # Pings every 3 days at 06:00 UTC (11:30 AM IST) to prevent free-tier project pausing
+    - cron: '0 6 */3 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions console
+
+jobs:
+  keep-alive-ping:
+    name: Ping Database Heartbeat
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Keep-Alive Request
+        run: |
+          TARGET_URL="${{ secrets.SITE_URL || 'https://inhomefurniture.in' }}/api/keep-alive"
+          CRON_SECRET="${{ secrets.CRON_SECRET }}"
+          
+          echo "Sending keep-alive ping to $TARGET_URL..."
+          
+          if [ -n "$CRON_SECRET" ]; then
+            HTTP_RESPONSE=$(curl -s -w "\n%{http_code}" -H "x-cron-secret: $CRON_SECRET" "$TARGET_URL")
+          else
+            HTTP_RESPONSE=$(curl -s -w "\n%{http_code}" "$TARGET_URL")
+          fi
+          
+          HTTP_CODE=$(echo "$HTTP_RESPONSE" | tail -n1)
+          BODY=$(echo "$HTTP_RESPONSE" | sed '$d')
+          
+          echo "Response HTTP Status: $HTTP_CODE"
+          echo "Response Body: $BODY"
+          
+          if [ "$HTTP_CODE" -eq 200 ]; then
+            echo "Keep-alive ping successful. Supabase database active."
+          else
+            echo "Error: Keep-alive ping returned status $HTTP_CODE"
+            exit 1
+          fi
