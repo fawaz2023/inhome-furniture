@@ -123,7 +123,7 @@ export default function AdminDashboardPage() {
 
   const visibleCount = products.filter((p) => p.visible).length;
   const hiddenCount = products.length - visibleCount;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app';
   const generalShareMessage = `Explore the latest handcrafted custom furniture catalogue from INHOME FURNITURE, Kangeyam: ${siteUrl}`;
   const generalShareWhatsAppUrl = `https://wa.me/?text=${encodeURIComponent(generalShareMessage)}`;
 

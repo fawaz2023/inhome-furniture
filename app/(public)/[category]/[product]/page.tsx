@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app';
   const rawImage = product.og_image_url || product.images[0] || category.image_url || '/og-default.jpg';
   const primaryImage = rawImage.startsWith('http') ? rawImage : `${baseUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`;
   const canonicalUrl = `${baseUrl}/${category.slug}/${product.slug}`;

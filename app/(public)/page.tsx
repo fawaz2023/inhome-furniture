@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     url: '/',
     images: [
       {
-        url: '/og-default.jpg',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app'}/og-default.jpg`,
         width: 1200,
         height: 630,
         alt: 'INHOME FURNITURE Sovereign Nilambur Teak Showcase',

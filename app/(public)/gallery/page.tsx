@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: 'INHOME FURNITURE',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&h=630&q=80',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app'}/og-gallery.jpg`,
         width: 1200,
         height: 630,
         alt: 'INHOME FURNITURE Showroom & Finished Works Gallery',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Showroom & Finished Works Gallery | INHOME FURNITURE',
     description: 'Explore our Kangeyam showroom displays and finished custom-crafted furniture pieces.',
-    images: ['https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&h=630&q=80'],
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app'}/og-gallery.jpg`],
   },
 };
 

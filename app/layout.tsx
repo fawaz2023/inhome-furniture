@@ -11,7 +11,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'INHOME FURNITURE | Custom Furniture Showcase | Kangeyam, Tamil Nadu',
+  title: {
+    default: 'INHOME FURNITURE | Custom Furniture Showcase | Kangeyam, Tamil Nadu',
+    template: '%s | INHOME FURNITURE Kangeyam',
+  },
   description:
     'Browse custom-crafted sofas, beds, dining sets, and solid wood furniture by INHOME FURNITURE in Kangeyam. Direct WhatsApp consultations with showroom experts.',
   keywords: [
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
     'furniture showroom Kangeyam'
   ],
   authors: [{ name: 'INHOME FURNITURE' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app'),
   openGraph: {
     type: 'website',
     locale: 'en_IN',
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
       'Browse handcrafted sofas, dining tables, teak cots, and custom wooden furniture. Tap to enquire directly on WhatsApp.',
     images: [
       {
-        url: '/og-default.jpg',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app'}/og-default.jpg`,
         width: 1200,
         height: 630,
         alt: 'INHOME FURNITURE Showcase Kangeyam',
@@ -46,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'INHOME FURNITURE | Custom Furniture Kangeyam',
     description: 'Custom-crafted solid wood furniture in Kangeyam, Tamil Nadu. Enquire directly on WhatsApp.',
-    images: ['/og-default.jpg'],
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app'}/og-default.jpg`],
   },
   ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
     ? {
@@ -60,12 +63,20 @@ export const metadata: Metadata = {
 import { Suspense } from 'react';
 import PageViewBeacon from '@/components/analytics/PageViewBeacon';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const storeSchema = getFurnitureStoreSchema();
+  let storeSchema;
+  try {
+    const { getServerShopSettings } = await import('@/lib/supabase-server');
+    const settings = await getServerShopSettings();
+    const phone = settings?.phone && settings.phone !== '+919999999999' ? settings.phone : undefined;
+    storeSchema = getFurnitureStoreSchema(phone, undefined);
+  } catch {
+    storeSchema = getFurnitureStoreSchema();
+  }
 
   return (
     <html lang="en">

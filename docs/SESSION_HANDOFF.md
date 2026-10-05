@@ -61,6 +61,60 @@ At the end of every session, append a new entry at the **top** (most recent firs
 
 ## Session Entries (Most Recent First)
 
+### Session 2026-10-05 — Execution of SEO Fix-Pack via /fix_before_touch
+
+#### ✅ Completed This Session
+- `[MODIFY]` [app/layout.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/layout.tsx) — Added root title template (`%s | INHOME FURNITURE Kangeyam`), converted `RootLayout` to async to dynamically supply shop phone to `getFurnitureStoreSchema()`, suppressed placeholder phone numbers and unverified `aggregateRating` until on-page customer reviews are published, made fallback OG and Twitter images absolute URLs, and updated fallback metadataBase to staging domain.
+- `[MODIFY]` [lib/seo.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/lib/seo.ts) — Made `telephone` and `aggregateRating` optional/conditional in `getFurnitureStoreSchema()`, prioritized compressed `product.og_image_url` over display images in `getProductSchema()`, and updated 3× fallback domain literals to staging URL.
+- `[MODIFY]` [next.config.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/next.config.ts) — Broadened Supabase remotePatterns hostname to `**.supabase.co` to support nested storage subdomains.
+- `[NEW]` [public/og-about.jpg](file:///c:/Users/fawaz/Desktop/Inhome%20website/public/og-about.jpg) — Generated and compressed custom 1200×630 showroom Open Graph card (137.86 KB, strictly < 300 KB).
+- `[NEW]` [public/og-gallery.jpg](file:///c:/Users/fawaz/Desktop/Inhome%20website/public/og-gallery.jpg) — Generated and compressed custom 1200×630 gallery exhibition Open Graph card (132.67 KB, strictly < 300 KB).
+- `[MODIFY]` [app/(public)/about/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/about/page.tsx) — Replaced external Unsplash OG hotlink with self-hosted `/og-about.jpg` (absolute URL).
+- `[MODIFY]` [app/(public)/gallery/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/gallery/page.tsx) — Replaced external Unsplash OG and Twitter hotlinks with self-hosted `/og-gallery.jpg` (absolute URL).
+- `[MODIFY]` [app/(public)/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/page.tsx) — Absolutified homepage Open Graph image URL.
+- `[MODIFY]` [app/(public)/[category]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/page.tsx) — Hardened category title to dynamic length check (`<= 60` chars) with `{ absolute: ... }` to prevent double-branding; updated fallback domain.
+- `[MODIFY]` [app/(public)/[category]/[product]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/[product]/page.tsx) — Updated fallback domain to staging URL.
+- `[MODIFY]` [app/sitemap.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/sitemap.ts) — Removed redundant `lastModified` on static routes and updated fallback domain.
+- `[MODIFY]` [app/robots.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/robots.ts) — Cleaned disallows to `['/admin/', '/api/']` and updated fallback domain.
+- `[MODIFY]` [app/admin/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/admin/page.tsx) — Updated catalogue share link fallback to staging URL.
+- `[NEW]` [app/not-found.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/not-found.tsx) — Created branded, luxury 404 page with noindex metadata and direct catalogue return CTA.
+- `[DELETE]` `app/mockup-preview/` & `app/mockup-old/` — Deleted development preview directories to prevent crawl budget waste and conflicting robots signals.
+- `[MODIFY]` `.env.local` — Set `NEXT_PUBLIC_SITE_URL=https://inhome-furniture-ebon.vercel.app` to align local dev/build with live deployment.
+
+#### 🧪 Verified Working
+- `npm run build` compiled 69/69 static/SSG pages with 0 TypeScript/lint errors in 3.9s.
+- `node -e` audit verified: all 17 category titles are $\le 60$ characters.
+- Audit of static build output confirmed:
+  - Homepage OG image: `https://inhome-furniture-ebon.vercel.app/og-default.jpg`
+  - About OG image: `https://inhome-furniture-ebon.vercel.app/og-about.jpg` (137.86 KB)
+  - Gallery OG image: `https://inhome-furniture-ebon.vercel.app/og-gallery.jpg` (132.67 KB)
+  - JSON-LD FurnitureStore: placeholder telephone cleanly omitted, aggregateRating cleanly suppressed until reviews exist on-page.
+  - Zero occurrences of `inhomefurniture.in` in generated metadata.
+  - Sitemap contains clean URLs without bogus static `lastmod`.
+- P0 Ground Truth in `lib/whatsapp.ts` remains 100% untouched.
+
+#### ❌ Known Issues / Partial Work
+- None.
+
+#### 🐛 Bugs Found This Session
+- None.
+
+#### ⏭️ Exact Next Step
+- **Owner Action:** In Vercel Project Settings $\to$ Environment Variables, set `NEXT_PUBLIC_SITE_URL=https://inhome-furniture-ebon.vercel.app` (or verified custom domain) and redeploy.
+- **Next Coding Step:** Milestone 5 / M8 Admin photo management enhancement or GBP off-site onboarding per `docs/MILESTONES.md`.
+
+#### 📋 TBD Items Still Pending From Owner
+- Custom domain: ⏳ Owner to register / confirm domain (e.g. `inhomefurniture.co.in`, `inhomekangeyam.in`)
+- Real shop SIM phone number: ⏳ (currently overridable via `NEXT_PUBLIC_WHATSAPP_NUMBER` and `NEXT_PUBLIC_SHOP_PHONE`)
+- Opening hours: ⏳ (defaults to `Mon - Sat: 9:00 AM - 6:00 PM`)
+
+#### 🔒 Do Not Touch in Next Session
+- `lib/whatsapp.ts` — P0 ground truth immutable.
+- `public/og-default.jpg`, `public/og-catalogue.jpg`, `public/og-about.jpg`, `public/og-gallery.jpg` — verified and compressed.
+- `app/layout.tsx` & `lib/seo.ts` — tested and verified.
+
+---
+
 ### Session 2026-10-05 — Implementation of Hardening Upgrades via /fix_before_touch
 
 #### ✅ Completed This Session

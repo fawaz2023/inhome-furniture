@@ -4,32 +4,28 @@ import { getServerCategories, getServerProductsByCategorySlug } from '@/lib/supa
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app';
   const currentDate = new Date().toISOString();
 
   // Core static routes
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 1.0,
     },
     {
       url: `${baseUrl}/catalogue`,
-      lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.95,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/gallery`,
-      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.7,
     },

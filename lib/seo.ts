@@ -1,7 +1,11 @@
 import { Product, Category } from '@/types/database';
 
-export function getFurnitureStoreSchema() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+export function getFurnitureStoreSchema(
+  telephone?: string,
+  rating?: { value: number; count: number }
+) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app';
+  const effectivePhone = telephone || process.env.NEXT_PUBLIC_SHOP_PHONE || undefined;
 
   return {
     '@context': 'https://schema.org',
@@ -10,7 +14,7 @@ export function getFurnitureStoreSchema() {
     image: `${baseUrl}/og-default.jpg`,
     '@id': baseUrl,
     url: baseUrl,
-    telephone: '+919999999999',
+    ...(effectivePhone ? { telephone: effectivePhone } : {}),
     priceRange: '₹₹ - ₹₹₹',
     address: {
       '@type': 'PostalAddress',
@@ -40,24 +44,34 @@ export function getFurnitureStoreSchema() {
         closes: '18:00',
       },
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '23',
-    },
+    ...(rating
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: String(rating.value),
+            reviewCount: String(rating.count),
+          },
+        }
+      : {}),
   };
 }
 
 export function getProductSchema(product: Product, categorySlug: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app';
   const productUrl = `${baseUrl}/${categorySlug}/${product.slug}`;
   const isMadeToOrder = product.product_type === 'made_to_order';
+
+  const productImage = product.og_image_url
+    ? [product.og_image_url.startsWith('http') ? product.og_image_url : `${baseUrl}${product.og_image_url.startsWith('/') ? '' : '/'}${product.og_image_url}`]
+    : product.images && product.images.length > 0
+      ? product.images
+      : [`${baseUrl}/og-default.jpg`];
 
   return {
     '@context': 'https://schema.org/',
     '@type': 'Product',
     name: product.name,
-    image: product.images && product.images.length > 0 ? product.images : [`${baseUrl}/og-default.jpg`],
+    image: productImage,
     description:
       product.description ||
       `Custom-crafted ${product.name} tailored to your dimensions by INHOME FURNITURE Kangeyam.`,
@@ -77,7 +91,7 @@ export function getProductSchema(product: Product, categorySlug: string) {
 }
 
 export function getBreadcrumbSchema(items: { name: string; url: string }[]) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app';
 
   return {
     '@context': 'https://schema.org',

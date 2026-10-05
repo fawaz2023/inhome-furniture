@@ -37,12 +37,17 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhome-furniture-ebon.vercel.app';
   const rawImage = category.image_url || '/og-default.jpg';
   const primaryImage = rawImage.startsWith('http') ? rawImage : `${baseUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`;
 
+  const shortTitle = `${category.name} in Kangeyam | Custom Wooden Designs | INHOME`;
+  const fallbackTitle = `${category.name} | INHOME FURNITURE Kangeyam`;
+
   return {
-    title: `${category.name} | Custom Furniture Catalogue | INHOME FURNITURE Kangeyam`,
+    title: {
+      absolute: shortTitle.length <= 60 ? shortTitle : fallbackTitle,
+    },
     description:
       category.description ||
       `Explore custom-made ${category.name} by INHOME FURNITURE in Kangeyam. Premium solid wood craftsmanship tailored to your specifications.`,
