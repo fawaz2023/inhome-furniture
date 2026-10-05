@@ -23,7 +23,9 @@ import { buildCustomDesignEnquiryUrl } from '@/lib/whatsapp';
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'INHOME FURNITURE Kangeyam | Authentic Nilambur Teak & Custom Furniture',
+  title: {
+    absolute: 'INHOME FURNITURE Kangeyam | Authentic Nilambur Teak & Custom Furniture',
+  },
   description:
     'Experience handcrafted custom furniture made from genuine Nilambur teak and curated solid woods. Tailored to your room dimensions at our Kangeyam showroom. Enquire directly on WhatsApp.',
   alternates: {

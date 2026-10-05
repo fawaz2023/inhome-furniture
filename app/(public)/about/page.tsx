@@ -18,7 +18,7 @@ import { getServerShopSettings } from '@/lib/supabase-server';
 import { buildCustomDesignEnquiryUrl } from '@/lib/whatsapp';
 
 export const metadata: Metadata = {
-  title: 'About Our Showroom & Custom Crafting | INHOME FURNITURE Kangeyam',
+  title: 'About Our Showroom & Custom Crafting',
   description:
     'Visit the INHOME FURNITURE showroom at TCL Tower, Chennimalai Rd, Kangeyam. Custom-crafted solid teak wood, country wood, and custom furniture made to your specifications.',
   alternates: {

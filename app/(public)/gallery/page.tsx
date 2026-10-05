@@ -5,7 +5,7 @@ import { getServerGalleryItems, getServerShopSettings } from '@/lib/supabase-ser
 import GalleryClient from '@/components/catalogue/GalleryClient';
 
 export const metadata: Metadata = {
-  title: 'Showroom & Finished Works Gallery | INHOME FURNITURE Kangeyam',
+  title: 'Showroom & Finished Works Gallery',
   description:
     'Explore our Kangeyam showroom displays, finished custom-crafted furniture pieces, and latest arrivals. Tap any piece to consult directly with us on WhatsApp.',
   alternates: {

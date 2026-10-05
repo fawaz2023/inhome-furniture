@@ -10,7 +10,7 @@ import { buildCustomDesignEnquiryUrl } from '@/lib/whatsapp';
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Full Furniture Catalogue | INHOME FURNITURE Kangeyam',
+  title: 'Full Furniture Catalogue',
   description:
     'Browse all 17 custom solid wood furniture categories by INHOME FURNITURE in Kangeyam. Curated Nilambur teak sofas, cots, dining tables, and storage pieces. Enquire directly on WhatsApp.',
   alternates: {

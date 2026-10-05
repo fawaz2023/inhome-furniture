@@ -75,7 +75,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const canonicalUrl = `${baseUrl}/${category.slug}/${product.slug}`;
 
   return {
-    title: `${product.name} | INHOME FURNITURE Kangeyam`,
+    title: product.name,
     description:
       product.description ||
       `Custom-crafted ${product.name} by INHOME FURNITURE Kangeyam. Available in pure Teak, Country Wood, and customized finishes.`,

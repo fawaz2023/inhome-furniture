@@ -61,6 +61,14 @@ At the end of every session, append a new entry at the **top** (most recent firs
 
 ## Session Entries (Most Recent First)
 
+### Session 2026-10-05 — Harmony-inspired homepage mockup (ISOLATED, Act mode)
+- Goal: play harmonyglobehabitat.com (React SPA shell + JS bundle, navy #010080, Cormorant+DM Sans, Kerala property marketplace) and translate its developer-style structure to INHOME catalogue language without touching live homepage.
+- Proof: raw HTML shell fetched (Vite /assets/index-Dd_JF2y9.js); live /sell page copy pulled (nav Home/About/Services/Properties/Events/Blog/Sell/Contact; RERA/privacy/footer HABRYCENTER Perinthalmanna).
+- Files: [NEW] app/harmony-mockup/page.tsx (hero + stats + portfolio grid + featured + arrivals + HowItWorksStrip + visit/bespoke, mock-data only, P0 whatsapp builders reused untouched); [NEW] app/harmony-mockup/harmony.css (gold #E7C873 on charcoal, 48px CTAs, 2-col mobile grids); [MODIFY] app/robots.ts (disallow /harmony-mockup/).
+- Verification: npm run build 70/70 clean incl. /harmony-mockup 1.186kB; tsc stale .next-types noise only; dev-serve fetch blocked by shell runner (needs manual `npm run dev -- --port 3010` + open /harmony-mockup).
+- Next: open /harmony-mockup at 390px, approve vibe, then port winning hero/stats/portfolio order into app/(public)/page.tsx or delete folder. Do NOT index mockup (noindex + robots disallow kept).
+---
+
 ### Session 2026-10-05 — Execution of SEO Fix-Pack via /fix_before_touch
 
 #### ✅ Completed This Session
