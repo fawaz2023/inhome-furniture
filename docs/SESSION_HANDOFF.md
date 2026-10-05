@@ -61,6 +61,44 @@ At the end of every session, append a new entry at the **top** (most recent firs
 
 ## Session Entries (Most Recent First)
 
+### Session 2026-10-05 — Implementation of Hardening Upgrades via /fix_before_touch
+
+#### ✅ Completed This Session
+- `[NEW]` [docs/WHATSAPP_BROADCAST_TEMPLATES.md](file:///c:/Users/fawaz/Desktop/Inhome%20website/docs/WHATSAPP_BROADCAST_TEMPLATES.md) — Created complete copy-paste WhatsApp broadcast and forward templates in English and Tamil for the shop owner to share `/catalogue` with customers, interior designers, and showroom visitors.
+- `[NEW]` [public/og-catalogue.jpg](file:///c:/Users/fawaz/Desktop/Inhome%20website/public/og-catalogue.jpg) — Generated and compressed custom 1200×630 Open Graph preview card (131 KB, safely under 300 KB limit) showcasing Nilambur Teak living and dining collection for WhatsApp link sharing.
+- `[MODIFY]` [app/(public)/catalogue/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/catalogue/page.tsx) — Pointed `openGraph.images` directly to the dedicated `/og-catalogue.jpg` banner.
+- `[MODIFY]` [components/layout/Header.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/components/layout/Header.tsx) — Added `@media (max-width: 420px)` rule hiding `.nav-item-secondary` (Gallery) on ultra-narrow mobile viewports, giving `Home`, `Catalogue`, and `About` touch targets $\ge 44$px with zero risk of text wrapping.
+- `[MODIFY]` [lib/mock-data.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/lib/mock-data.ts) — Configured `MOCK_SETTINGS` with `process.env.NEXT_PUBLIC_WHATSAPP_NUMBER` and `process.env.NEXT_PUBLIC_SHOP_PHONE` overrides, enabling immediate phone number updates via `.env.local` or Vercel without modifying code.
+- `[GIT]` Committed all 22 modified and untracked files into clean Git history (`896857e`, `76a273b`, `49dab7c`).
+
+#### 🧪 Verified Working
+- `npm run build` compiled 71/71 static/SSG pages with 0 TypeScript/lint errors in 4.2s.
+- `public/og-catalogue.jpg` verified: 134,179 bytes (131 KB), 1200×630 pixels.
+- Working directory verified 100% clean (`nothing to commit, working tree clean`).
+
+#### ❌ Known Issues / Partial Work
+- None.
+
+#### 🐛 Bugs Found This Session
+- None.
+
+#### ⏭️ Exact Next Step
+- **File to open:** `.env.local`
+- **Task:** When the owner provides their real Kangeyam SIM number, add `NEXT_PUBLIC_WHATSAPP_NUMBER=91...` and `NEXT_PUBLIC_SHOP_PHONE=+91...` to `.env.local` and Vercel Environment Variables.
+- **Depends on:** Owner sharing their live phone number.
+
+#### 📋 TBD Items Still Pending From Owner
+- Phone/WhatsApp number: ⏳ / Confirmed fallback: `919999999999` (can now be overridden via env vars)
+- Opening hours: ⏳ / Fallback: `Mon - Sat: 9:00 AM - 6:00 PM`
+- Custom domain: ⏳ / Live on `https://inhome-furniture-ebon.vercel.app`
+
+#### 🔒 Do Not Touch in Next Session
+- `lib/whatsapp.ts` — P0 ground truth immutable.
+- `public/og-catalogue.jpg` & `app/(public)/catalogue/page.tsx` — verified and tested.
+- `components/layout/Header.tsx` & `lib/mock-data.ts` — verified and tested.
+
+---
+
 ### Session 2026-10-05 — Nilambur Teak Heritage Homepage & Dedicated WhatsApp Catalogue Split
 
 #### ✅ Completed This Session
