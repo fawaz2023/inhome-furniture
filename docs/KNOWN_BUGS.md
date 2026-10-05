@@ -404,6 +404,68 @@ Never leave hardcoded fabricated data or non-existent route paths in production 
 
 ---
 
+---
+
+### BUG-013 — Mockup Inline Style Split Broke JSX Build
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | ✅ FIXED |
+| **Severity** | P1 (Build break, isolated mockup only) |
+| **Milestone** | Mockup Preview |
+| **Found in File** | `app/mockup-preview/page.tsx` |
+| **Line Reference** | Line ~138 |
+| **Date Found** | 2026-10-05 |
+| **Date Fixed** | 2026-10-05 |
+
+**Symptom:**
+`npm run build` failed with `Expected '</', got ':'` — large inline `<style>` was inserted mid-JSX leaving raw CSS lines outside any tag.
+
+**Root Cause:**
+Chunked editor inserts placed `<style>` block between product JSX closing tags, orphaning CSS rules as JSX text.
+
+**Fix Applied:**
+Trimmed file to line 136 via PowerShell, re-appended clean closing JSX, moved ALL styles to `app/mockup-preview/mockup.css` + `import './mockup.css'`.
+
+**Verification:**
+`npm run build` 44/44 clean, `/mockup-preview` renders 200.
+
+**Prevention Rule:**
+Never inline >50 lines of CSS in mockup pages — use separate CSS file import.
+
+---
+
+---
+
+### BUG-014 — Dev .next Cache 500 After Production Build
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | ✅ FIXED |
+| **Severity** | P2 (Local dev only) |
+| **Milestone** | Mockup Preview |
+| **Found in File** | `.next/server/vendor-chunks/next.js` (generated) |
+| **Line Reference** | N/A |
+| **Date Found** | 2026-10-05 |
+| **Date Fixed** | 2026-10-05 |
+
+**Symptom:**
+`GET /mockup-preview` 500 ENOENT vendor-chunks/next.js on dev :3005 right after `npm run build`.
+
+**Root Cause:**
+Production build replaced `.next` output while old dev server still held stale chunk handles.
+
+**Fix Applied:**
+Killed node dev :3005, deleted `.next`, restarted `npm run dev -- --port 3005` — 200 OK.
+
+**Verification:**
+`Invoke-WebRequest /mockup-preview` StatusCode 200.
+
+**Prevention Rule:**
+Restart dev server (and clear `.next` if 500 persists) after every `npm run build`.
+
+---
+
 Copy this block for every new bug:
 
 ```

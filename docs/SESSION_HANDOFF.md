@@ -61,6 +61,102 @@ At the end of every session, append a new entry at the **top** (most recent firs
 
 ## Session Entries (Most Recent First)
 
+### Session 2026-10-05 — Audit Fixes Applied to /mockup-preview (13/13)
+
+#### Completed This Session
+- [MODIFY] `app/mockup-preview/page.tsx` — H1 `<br>` removed; search/pills `aria-disabled` + visual-mock labels; crumbs `aria-label="Breadcrumb"`; sticky mock `aria-hidden` + caption explaining live bar.
+- [MODIFY] `app/mockup-preview/mockup.css` — H1 `clamp(2.25rem,5vw,3.5rem)` + `max-width:12ch`; strip stone `#F3EFEA` (zebra fixed); grids 3-col/768px + 4-col/1024px; muted text `#57534E`; hero 24px beat; collage 112x84 + 12px inset at 360px; trustbar 3rd item hidden <480px; smalls to 12/14px; focus-visible + not-allowed cursor; sticky caption style.
+- Rebuilt clean (`npm run build` 44/44) after `.next` dev-cache corruption post-build; restarted dev :3005 fresh.
+
+#### Verified Working
+- [x] `npm run build` 44/44 routes clean.
+- [x] `GET http://localhost:3005/mockup-preview` 200 after restart.
+- [x] Fix markers: max-width:12ch=True, 4-col=True, not-allowed=True, stone-strip=True, trustbar-trim=True, BR removed=True.
+
+#### Known Issues / Partial Work
+- None. Isolated to mockup-preview; live catalogue untouched; P0 whatsapp.ts untouched.
+
+#### Bugs Found This Session
+- BUG-014: Dev `.next` cache 500 after prod build — logged FIXED.
+
+#### Exact Next Step
+- File to open: `design-audits/design-audit-2026-10-05.md`
+- Task: Re-audit fixed preview or port winners to live `app/(public)/page.tsx`.
+- Depends on: Owner vibe approval.
+
+#### TBD Items Still Pending From Owner
+- Same 5 TBDs.
+
+#### Do Not Touch in Next Session
+- `lib/whatsapp.ts` — P0 immutable. Live catalogue files — change only on approval.
+
+---
+
+### Session 2026-10-05 — fz-uidesigner Audit of /mockup-preview (report only)
+
+#### Completed This Session
+- Located Antigravity global skill `C:\Users\fawaz\.gemini\config\skills\fz-uidesigner\SKILL.md` (not in workspace skills).
+- Ran full 8-step audit protocol against live http://localhost:3005/mockup-preview (200 OK).
+- [NEW] `design-audits/design-audit-2026-10-05.md` — full report: breakpoint walkthrough, rhythm/contrast/eye-path, mobile+desktop checks, scores, 3 High + 6 Medium + 4 Low, concrete fixes, quick wins, theme note. Zero code changed per skill Step 8.
+
+#### Verified Working
+- [x] Preview 200 OK on :3005; build previously 44/44 clean.
+- [x] H1=1, H2=6, IMG_NO_ALT=0, WA_LINKS=28 from served HTML.
+
+#### Known Issues / Partial Work
+- None. Fixes are recommendations only — awaiting approval to implement.
+
+#### Bugs Found This Session
+- None (audit mode, no code touched).
+
+#### Exact Next Step
+- File to open: `design-audits/design-audit-2026-10-05.md`
+- Task: Owner picks quick wins → implement in Act mode (H1 break, sticky twin, contrast).
+- Depends on: Vibe approval.
+
+#### TBD Items Still Pending From Owner
+- Same 5 TBDs (phone, hours, logo, chair spelling, domain).
+
+#### Do Not Touch in Next Session
+- `lib/whatsapp.ts` — P0 immutable. `app/mockup-preview/*` — audit target, change only on approval.
+
+---
+
+### Session 2026-10-05 — Mockup Preview Option B (Home + Category + Product stacked)
+
+#### Completed This Session
+- [NEW] `app/mockup-preview/page.tsx` — isolated stacked mockup reusing CategoryCard, ProductCard, HowItWorksStrip, NewArrivalsCarousel + mock-data, P0 whatsapp builder untouched.
+- [NEW] `app/mockup-preview/mockup.css` — all mk- styles separated to avoid JSX corruption, tokens only from globals.css.
+
+#### Verified Working
+- [x] `npm run build` 44 routes clean in 3.8s, `/mockup-preview` 187 B static.
+- [x] `GET http://localhost:3005/mockup-preview` returned 200 (482520 bytes).
+- [x] Copy governance: INHOME FURNITURE, Enquire on WhatsApp, custom-crafted to order, no prices, hours note UI-only.
+
+#### Known Issues / Partial Work
+- None. Dev server on port 3005 left running for click-through. Delete `/mockup-preview` after approval.
+
+#### Bugs Found This Session
+- BUG-013: Mockup inline style split broke JSX — logged in KNOWN_BUGS.md — Status: FIXED
+
+#### Exact Next Step
+- File to open: `app/mockup-preview/page.tsx`
+- Task: Get vibe approval, then port winning hero/category/product hierarchy into `app/(public)/page.tsx` etc. or delete mockup folder.
+- Depends on: Owner vibe feedback, None other.
+
+#### TBD Items Still Pending From Owner
+- Phone/WhatsApp number: Pending (mock 919999999999)
+- Opening hours: Pending (mock Mon-Sat 9-6)
+- Logo file: Pending (typographic wordmark)
+- Rocking and Easy Chair spelling: Pending
+- Domain name: Pending (inhomefurniture.in placeholder)
+
+#### Do Not Touch in Next Session
+- `lib/whatsapp.ts` — P0 ground truth immutable.
+- `lib/mock-data.ts`, `app/globals.css` — reused read-only.
+
+---
+
 ---
 
 ### Session 2026-10-05 — Pre-Launch Hardening & Bug Fixes (Space Bunny Audit Resolution)

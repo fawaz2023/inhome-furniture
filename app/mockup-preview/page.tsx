@@ -1,5 +1,6 @@
 ﻿import Link from 'next/link';
 import Image from 'next/image';
+import './mockup.css';
 import CategoryCard from '@/components/catalogue/CategoryCard';
 import ProductCard from '@/components/catalogue/ProductCard';
 import HowItWorksStrip from '@/components/catalogue/HowItWorksStrip';
@@ -51,7 +52,7 @@ export default function MockupPreviewPage() {
         <div className="mk-hero-grid">
           <div className="mk-hero-copy">
             <span className="mk-eyebrow">Kangeyam â€¢ Custom Furniture</span>
-            <h1 className="mk-h1">Furniture made<br />to your <em>specifications.</em></h1>
+            <h1 className="mk-h1">Furniture made to your <em>specifications.</em></h1>
             <p className="mk-sub">Browse solid-teak designs. Tap any piece for a transparent quote on WhatsApp â€” wood, size, finish, your way.</p>
             <div className="mk-cta-row">
               <a href={enquireUrl} target="_blank" rel="noreferrer" className="btn-whatsapp mk-cta-main"><MessageCircle size={18} /> Enquire on WhatsApp</a>
@@ -62,7 +63,7 @@ export default function MockupPreviewPage() {
               <span><CheckCircle2 size={14} /> Custom dimensions</span>
               <span><CheckCircle2 size={14} /> Direct showroom chat</span>
             </div>
-            <div className="mk-search-mock"><span>âŒ•</span><span>Search sofas, teak beds, dining setsâ€¦</span><span className="mk-search-tag">live search</span></div>
+            <div className="mk-search-mock" aria-disabled="true" title="Visual mock - not tappable"><span>âŒ•</span><span>Search sofas, teak beds, dining setsâ€¦</span><span className="mk-search-tag">visual mock</span></div>
           </div>
           <div className="mk-hero-media">
             <div className="mk-hero-img-main"><Image src={heroImg} alt={heroCat.name} fill sizes="(max-width:768px) 100vw, 520px" className="mk-img" priority /></div>
@@ -98,13 +99,13 @@ export default function MockupPreviewPage() {
       <HowItWorksStrip />
       <div className="mk-chapter-label container-standard"><span>02 â€” Category â€¢ calm 2-col grid</span></div>
       <section className="container-standard mk-catmock">
-        <nav className="mk-crumb"><span>Home</span><span>â€º</span><b>{sofaCat.name}</b></nav>
+        <nav className="mk-crumb" aria-label="Breadcrumb"><span>Home</span><span>â€º</span><b>{sofaCat.name}</b></nav>
         <div className="mk-cat-head">
           <div><span className="mk-eyebrow">Category showcase</span><h2 className="mk-h2">{sofaCat.name}</h2>
           <p className="mk-sub2">{sofaCat.description}</p></div>
           <span className="mk-count">{sofaProducts.length} designs</span>
         </div>
-        <div className="mk-pills"><span className="mk-pill-on">All</span><span>Ready stock</span><span>Made to order</span></div>
+        <div className="mk-pills" aria-disabled="true" title="Visual mock - not tappable"><span className="mk-pill-on">All</span><span>Ready stock</span><span>Made to order</span></div>
         <div className="mk-prod-grid">{sofaProducts.map((p) => (<ProductCard key={p.id} product={p} categorySlug={featuredCatSlug} shopPhone={settings.whatsapp_number} />))}</div>
       </section>
 
@@ -118,7 +119,7 @@ export default function MockupPreviewPage() {
             <div className="mk-gal-thumbs">{featured.images.slice(0, 3).map((src, i) => (<span key={i} className={i === 0 ? 'mk-thumb on' : 'mk-thumb'}><Image src={src} alt="" fill sizes="90px" className="mk-img" /></span>))}</div>
           </div>
           <div className="mk-info">
-            <nav className="mk-crumb"><span>Home</span><span>â€º</span><span>{sofaCat.name}</span><span>â€º</span><b>{featured.name.slice(0, 22)}..</b></nav>
+            <nav className="mk-crumb" aria-label="Breadcrumb"><span>Home</span><span>â€º</span><span>{sofaCat.name}</span><span>â€º</span><b>{featured.name.slice(0, 22)}..</b></nav>
             <span className={featured.product_type === 'made_to_order' ? 'badge badge-order' : 'badge badge-ready'}>{featured.product_type === 'made_to_order' ? 'Made to order' : 'Ready stock'}</span>
             <h2 className="mk-h2">{featured.name}</h2>
             <p className="mk-sub2">{featured.description}</p>
@@ -135,12 +136,12 @@ export default function MockupPreviewPage() {
         </div>
       </section>
       )}
-      <div className="container-standard mk-sticky-mock">
+      <div className="container-standard mk-sticky-mock" aria-hidden="true" title="Sticky-bar preview (visual mock)">
         <span><Phone size={17} /> Call</span>
         <span className="mk-sticky-wa"><MessageCircle size={17} /> WhatsApp</span>
         <span><Navigation size={17} /> Directions</span>
       </div>
-      <div className="mk-foot container-standard"><p>Mockup only — reuses live atoms + tokens. WhatsApp links use P0 builder, hours note is UI-only.</p></div>
+      <div className="container-standard mk-sticky-cap"><p>Preview of the fixed bottom Call / WhatsApp / Directions bar above (visual only — the live bar is fixed to the viewport).</p></div>      <div className="mk-foot container-standard"><p>Mockup only — reuses live atoms + tokens. WhatsApp links use P0 builder, hours note is UI-only.</p></div>
     </div>
   );
 }
