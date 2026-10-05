@@ -68,13 +68,25 @@ export function getProductSchema(product: Product, categorySlug: string) {
     offers: {
       '@type': 'Offer',
       url: productUrl,
-      priceCurrency: 'INR',
-      price: '0',
-      priceValidUntil: '2027-12-31',
       availability: isMadeToOrder
         ? 'https://schema.org/PreOrder'
         : 'https://schema.org/InStock',
       itemCondition: 'https://schema.org/NewCondition',
     },
+  };
+}
+
+export function getBreadcrumbSchema(items: { name: string; url: string }[]) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url.startsWith('http') ? item.url : `${baseUrl}${item.url.startsWith('/') ? '' : '/'}${item.url}`,
+    })),
   };
 }

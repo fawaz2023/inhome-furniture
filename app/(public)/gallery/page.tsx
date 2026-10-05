@@ -9,13 +9,13 @@ export const metadata: Metadata = {
   description:
     'Explore our Kangeyam showroom displays, finished custom-crafted furniture pieces, and latest arrivals. Tap any piece to consult directly with us on WhatsApp.',
   alternates: {
-    canonical: 'https://inhomefurniture.in/gallery',
+    canonical: '/gallery',
   },
   openGraph: {
     title: 'Showroom & Finished Works Gallery | INHOME FURNITURE',
     description:
       'Explore our Kangeyam showroom displays, finished custom-crafted furniture pieces, and latest arrivals.',
-    url: 'https://inhomefurniture.in/gallery',
+    url: '/gallery',
     siteName: 'INHOME FURNITURE',
     images: [
       {

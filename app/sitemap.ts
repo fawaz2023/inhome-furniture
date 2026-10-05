@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
-import { getMockCategories, getMockProductsByCategorySlug } from '@/lib/mock-data';
+import { getServerCategories, getServerProductsByCategorySlug } from '@/lib/supabase-server';
 
 export const revalidate = 3600;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
   const currentDate = new Date().toISOString();
 
@@ -14,6 +14,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/catalogue`,
+      lastModified: currentDate,
+      changeFrequency: 'daily',
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/about`,
@@ -30,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Dynamic category routes
-  const categories = getMockCategories();
+  const categories = await getServerCategories();
   const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
     url: `${baseUrl}/${cat.slug}`,
     lastModified: cat.updated_at || currentDate,
@@ -41,7 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Dynamic product routes
   const productRoutes: MetadataRoute.Sitemap = [];
   for (const cat of categories) {
-    const products = getMockProductsByCategorySlug(cat.slug);
+    const products = await getServerProductsByCategorySlug(cat.slug);
     for (const prod of products) {
       productRoutes.push({
         url: `${baseUrl}/${cat.slug}/${prod.slug}`,

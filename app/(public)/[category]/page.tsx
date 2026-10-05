@@ -10,6 +10,7 @@ import {
 import ProductCard from '@/components/catalogue/ProductCard';
 import { ChevronRight, Home, Sparkles, MessageCircle, Clock } from 'lucide-react';
 import { buildCustomDesignEnquiryUrl } from '@/lib/whatsapp';
+import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
@@ -36,6 +37,10 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     };
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const rawImage = category.image_url || '/og-default.jpg';
+  const primaryImage = rawImage.startsWith('http') ? rawImage : `${baseUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`;
+
   return {
     title: `${category.name} | Custom Furniture Catalogue | INHOME FURNITURE Kangeyam`,
     description:
@@ -50,9 +55,9 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
         category.description || `Browse custom handcrafted ${category.name} options. Chat directly with us on WhatsApp.`,
       images: [
         {
-          url: category.image_url,
-          width: 800,
-          height: 600,
+          url: primaryImage,
+          width: 1200,
+          height: 630,
           alt: `${category.name} Collection`,
         },
       ],
@@ -62,7 +67,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       title: `${category.name} | INHOME FURNITURE`,
       description:
         category.description || `Customise ${category.name} with INHOME FURNITURE Kangeyam on WhatsApp.`,
-      images: [category.image_url],
+      images: [primaryImage],
     },
   };
 }
@@ -80,15 +85,28 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     getServerShopSettings()
   ]);
   const customWhatsAppUrl = buildCustomDesignEnquiryUrl(settings.whatsapp_number);
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Catalogue', url: '/catalogue' },
+    { name: category.name, url: `/${category.slug}` },
+  ]);
 
   return (
     <div className="category-page-wrapper">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-standard">
         {/* Breadcrumb Navigation */}
         <nav className="breadcrumb-nav" aria-label="Breadcrumb">
           <Link href="/" className="breadcrumb-link">
             <Home size={14} />
             <span>Home</span>
+          </Link>
+          <ChevronRight size={14} className="breadcrumb-separator" />
+          <Link href="/catalogue" className="breadcrumb-link">
+            <span>Catalogue</span>
           </Link>
           <ChevronRight size={14} className="breadcrumb-separator" />
           <span className="breadcrumb-current" aria-current="page">

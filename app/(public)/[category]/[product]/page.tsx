@@ -28,7 +28,7 @@ import {
   Clock,
 } from 'lucide-react';
 import { buildProductEnquiryUrl } from '@/lib/whatsapp';
-import { getProductSchema } from '@/lib/seo';
+import { getProductSchema, getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
@@ -69,8 +69,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     };
   }
 
-  const primaryImage = product.images[0] || category.image_url;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inhomefurniture.in';
+  const rawImage = product.og_image_url || product.images[0] || category.image_url || '/og-default.jpg';
+  const primaryImage = rawImage.startsWith('http') ? rawImage : `${baseUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`;
   const canonicalUrl = `${baseUrl}/${category.slug}/${product.slug}`;
 
   return {
@@ -92,8 +93,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       images: [
         {
           url: primaryImage,
-          width: 800,
-          height: 600,
+          width: 1200,
+          height: 630,
           alt: product.name,
         },
       ],
@@ -125,6 +126,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   const standardWhatsAppUrl = buildProductEnquiryUrl(product.name, category.slug, product.slug, 'standard', settings.whatsapp_number);
   const customiseWhatsAppUrl = buildProductEnquiryUrl(product.name, category.slug, product.slug, 'customise', settings.whatsapp_number);
   const productSchema = getProductSchema(product, category.slug);
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Catalogue', url: '/catalogue' },
+    { name: category.name, url: `/${category.slug}` },
+    { name: product.name, url: `/${category.slug}/${product.slug}` },
+  ]);
 
   // Related products in this category (excluding current)
   const categoryProducts = await getServerProductsByCategorySlug(category.slug);
@@ -136,10 +143,14 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   return (
     <div className="product-detail-wrapper">
-      {/* Product & Offer Structured Data */}
+      {/* Product & Breadcrumb Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <div className="container-standard">
@@ -148,6 +159,10 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           <Link href="/" className="breadcrumb-link">
             <Home size={14} />
             <span>Home</span>
+          </Link>
+          <ChevronRight size={14} className="breadcrumb-separator" />
+          <Link href="/catalogue" className="breadcrumb-link">
+            <span>Catalogue</span>
           </Link>
           <ChevronRight size={14} className="breadcrumb-separator" />
           <Link href={`/${category.slug}`} className="breadcrumb-link">

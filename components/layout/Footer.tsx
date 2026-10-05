@@ -19,7 +19,7 @@ export default async function Footer() {
         <div className="footer-col">
           <div className="footer-brand-title">INHOME FURNITURE</div>
           <p className="footer-tagline">
-            Custom-crafted furniture specialists and design consultants in Kangeyam. Every piece is built to your specifications with curated solid teak, rosewood, and premium finishes.
+            Custom-crafted furniture specialists and design consultants in Kangeyam. Every piece is crafted to your specifications using authentic Nilambur teak wood, curated solid timber, and hand-buffed finishes.
           </p>
           <div className="footer-trust-badge">
             <ShieldCheck size={16} className="trust-icon" />
@@ -56,6 +56,11 @@ export default async function Footer() {
           <ul className="footer-nav-list">
             <li>
               <Link href="/" className="footer-link">
+                Home (Nilambur Teak Story)
+              </Link>
+            </li>
+            <li>
+              <Link href="/catalogue" className="footer-link">
                 Browse Full Catalogue
               </Link>
             </li>

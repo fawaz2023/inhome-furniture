@@ -61,6 +61,117 @@ At the end of every session, append a new entry at the **top** (most recent firs
 
 ## Session Entries (Most Recent First)
 
+### Session 2026-10-05 — Nilambur Teak Heritage Homepage & Dedicated WhatsApp Catalogue Split
+
+#### ✅ Completed This Session
+- `[NEW]` [app/(public)/catalogue/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/catalogue/page.tsx) — Created the dedicated, frictionless `/catalogue` showcase specifically optimized for the shop owner to share with customers on WhatsApp. Features instant search (SearchBox), 17-category grid with live inventory counts, new arrivals carousel, bespoke custom photo order CTA, and How It Works strip.
+- `[MODIFY]` [app/(public)/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/page.tsx) — Re-architected `/` into the Nilambur Teak Heritage brand homepage. Features:
+  1. Heritage Hero emphasizing genuine GI-tagged Nilambur Teak, dense golden grain, natural termite resistance, and Kangeyam showroom.
+  2. 3 Nilambur Teak Distinction Pillars (Centuries of Pedigree, Natural Termite Shield via tectoquinone oil, and 50+ Year Heirloom Longevity).
+  3. Curated Category Spotlights (Sofas, Cots, Dining, TV Units, Wardrobes) with deep-links to `/catalogue`.
+  4. Signature Handcrafted Pieces showcase.
+  5. Elevation / Reference photo consultation CTA.
+  6. Kangeyam Showroom visit card with verified Google 4.8 / 5.0 rating (23 reviews) and Google Maps route button.
+  7. How It Works 3-step strip.
+- `[MODIFY]` [components/layout/Header.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/components/layout/Header.tsx) — Added `Home` (`/`) and `Catalogue` (`/catalogue`) navigation tabs; polished mobile view with abbreviated labels (`About`) and dynamic responsive spacing to eliminate line wrapping on 390px screens.
+- `[MODIFY]` [components/layout/Footer.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/components/layout/Footer.tsx) — Updated brand bio highlighting authentic Nilambur Teak sourcing and added `/catalogue` in Quick Navigation.
+- `[MODIFY]` [app/sitemap.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/sitemap.ts) — Injected `/catalogue` route into dynamic XML sitemap with high priority (`0.95`).
+- `[MODIFY]` [app/(public)/[category]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/page.tsx) & [app/(public)/[category]/[product]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/[product]/page.tsx) — Updated both UI breadcrumbs and Schema.org `BreadcrumbList` to reflect complete hierarchy: `Home (/) > Catalogue (/catalogue) > [Category] (/[category]) > [Product] (/[category]/[product])`.
+- `[DEPLOY]` Compiled with Next.js 15.5.27 (71/71 static/SSG pages) and deployed live to Vercel production (`https://inhome-furniture-ebon.vercel.app`).
+
+#### 🧪 Verified Working
+- `npm run build` compiled 71/71 pages cleanly with 0 TypeScript/lint errors.
+- Production deployment verified live:
+  - `https://inhome-furniture-ebon.vercel.app/` $\to$ 200, Nilambur Teak hero, distinction pillars, and Google 4.8 trust panel.
+  - `https://inhome-furniture-ebon.vercel.app/catalogue` $\to$ 200, dedicated catalogue showcase with instant search, 17 categories, new arrivals, and WhatsApp photo CTA.
+  - `https://inhome-furniture-ebon.vercel.app/sitemap.xml` $\to$ 200, contains `<loc>https://inhome-furniture-ebon.vercel.app/catalogue</loc>` with priority 0.95.
+  - Category & Product breadcrumbs $\to$ both HTML and JSON-LD schema include `Catalogue` step.
+  - Tested mobile viewports (390px) via automated Playwright screenshots (`scratch/live_nilambur_mobile_home.png` & `scratch/live_catalogue_mobile.png`), verifying pixel-perfect header alignment and touch targets $\ge 44\times 44$px.
+
+#### ❌ Known Issues / Partial Work
+- None.
+
+#### 🐛 Bugs Found This Session
+- BUG-018: `settings.google_rating` possibly undefined in `HomePage` during static generation — FIXED with nullish coalescing default fallback (`settings.google_rating ?? 4.8`).
+
+#### ⏭️ Exact Next Step
+- **File to open:** `app/admin/products/page.tsx`
+- **Task:** Share the new `/catalogue` link (`https://inhome-furniture-ebon.vercel.app/catalogue`) with the shop owner for direct customer WhatsApp sharing, and continue with Admin / CMS workflow polish per `docs/MILESTONES.md`.
+- **Depends on:** Owner feedback on custom photography or additional Nilambur Teak copy nuances.
+
+#### 📋 TBD Items Still Pending From Owner
+- Phone/WhatsApp number: ⏳ / ✅ Confirmed: `919999999999` (placeholder pending owner's real Kangeyam SIM number)
+- Opening hours: ⏳ / ✅ Confirmed: `Mon - Sat: 9:00 AM - 6:00 PM`
+- Custom domain: ⏳ / Currently live on `https://inhome-furniture-ebon.vercel.app`
+
+#### 🔒 Do Not Touch in Next Session
+- `lib/whatsapp.ts` — P0 ground truth immutable; do not modify.
+- `app/(public)/catalogue/page.tsx` & `app/(public)/page.tsx` — verified and deployed.
+
+---
+
+### Session 2026-10-05 — Complete SEO & Open Graph Hardening (fix_before_touch Protocol)
+
+#### ✅ Completed This Session
+- `[MODIFY]` [app/layout.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/layout.tsx) — Migrated root Open Graph and Twitter image from external Unsplash hotlink to self-hosted `/og-default.jpg` (64.5 KB). Removed hardcoded placeholder GSC verification token.
+- `[MODIFY]` [app/(public)/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/page.tsx) — Added dedicated homepage `metadata` with canonical `/` and targeted Kangeyam custom furniture keywords.
+- `[MODIFY]` [app/(public)/gallery/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/gallery/page.tsx) — Normalized canonical and OG url to relative `/gallery` so `metadataBase` dynamically prefixes the active deployment host.
+- `[MODIFY]` [app/(public)/about/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/about/page.tsx) — Added `alternates: { canonical: '/about' }`.
+- `[MODIFY]` [app/robots.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/robots.ts) — Added `/mockup-preview/` and `/mockup-old/` to the crawler `disallow` list.
+- `[MODIFY]` [lib/seo.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/lib/seo.ts) — Sanitized `getProductSchema`: removed `price: '0'` to eliminate Google Merchant Warnings for bespoke custom furniture; exported `getBreadcrumbSchema()` helper for Schema.org `BreadcrumbList`.
+- `[MODIFY]` [app/(public)/[category]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/page.tsx) & [app/(public)/[category]/[product]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/[product]/page.tsx) — Injected structured `BreadcrumbList` schema script into both category and product detail pages.
+- `[NEW]` [app/manifest.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/manifest.ts) — Created Web App Manifest metadata route (`/manifest.webmanifest`) providing PWA installability and SERP brand favicon badge.
+- `[CONFIG]` Configured `NEXT_PUBLIC_SITE_URL=https://inhome-furniture-ebon.vercel.app` on Vercel CLI and deployed to production.
+
+#### 🧪 Verified Working
+- `npm run build` compiled 70/70 static routes with 0 errors.
+- Live Vercel deployment verified:
+  - `https://inhome-furniture-ebon.vercel.app/sitemap.xml` $\to$ 200, valid XML with live host URLs.
+  - `https://inhome-furniture-ebon.vercel.app/robots.txt` $\to$ 200, blocks admin, api, and mockup routes.
+  - `https://inhome-furniture-ebon.vercel.app/manifest.webmanifest` $\to$ 200, valid PWA manifest JSON.
+  - `https://inhome-furniture-ebon.vercel.app/` $\to$ canonical and `og:image` resolve to live host and local `/og-default.jpg`.
+  - Product page JSON-LD $\to$ `FurnitureStore`, `Product` (no price: 0 warning), and `BreadcrumbList` (1: Home, 2: Category, 3: Product) all present and valid.
+
+#### ❌ Known Issues / Partial Work
+- None.
+
+#### 🐛 Bugs Found This Session
+- None.
+
+#### ⏭️ Exact Next Step
+- **File to open:** `app/admin/products/new/page.tsx`
+- **Task:** Milestone 5 — Implement dual-image uploader (camera capture/upload emitting 1600px WebP display version and 1200×630 <300KB WebP OG preview version).
+- **Depends on:** Real shop WhatsApp number from owner (optional, currently using placeholder).
+
+#### ✅ Completed This Session
+- `[NEW]` [app/(public)/layout.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/layout.tsx) — Created dedicated public route-group layout that encapsulates `<Header />`, `<Footer />`, and `<StickyBottomBar />` with dynamic shop settings.
+- `[MODIFY]` [app/layout.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/layout.tsx) — Stripped customer Header, Footer, and StickyBottomBar from root layout. All `/admin/*` routes and isolated previews are now completely free of customer chrome collision.
+- `[MODIFY]` [lib/mock-data.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/lib/mock-data.ts) — Added 2 realistic sample products with complete specifications for each of the 11 previously empty categories (Cots, Dressing Tables, Wardrobes, TV Units, Office Tables, Office Chairs, Coffee Tables, Book Shelves, Shoe Racks, Puja Mandapams, Rocking Chairs, Mattresses, Bar Stools, Custom Furniture). Dynamically mapped `product_count` in `getMockCategories()` and `getMockCategoryBySlug()` so count badges match inventory precisely. Total products expanded from 11 to 35.
+- `[MODIFY]` [app/(public)/[category]/[product]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/[product]/page.tsx) — Hardened Open Graph metadata: prioritized `product.og_image_url || product.images[0]`, enforced absolute HTTPS URL guard, and standardized dimensions to 1200×630.
+- `[MODIFY]` [app/(public)/[category]/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/(public)/[category]/page.tsx) — Hardened Category Open Graph metadata with absolute HTTPS URL guard and standardized dimensions to 1200×630.
+- `[MODIFY]` [app/sitemap.ts](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/sitemap.ts) — Converted sitemap to `async` and wired dynamic `getServerCategories()` and `getServerProductsByCategorySlug()` with resilient fallback.
+
+#### 🧪 Verified Working
+- `npm run build` compiled 100% cleanly in 5.3s. Generated 69/69 static pages (all 17 categories, 35 product detail pages with OG tags and dual WhatsApp CTAs, /about, /gallery, all admin routes, sitemap.xml, robots.txt). Zero TypeScript or lint errors.
+- Route isolation: `/admin/*` is free from customer sticky bar; `app/(public)/*` carries full customer layout shell.
+
+#### ❌ Known Issues / Partial Work
+- None.
+
+#### 🐛 Bugs Found This Session
+- None.
+
+#### ⏭️ Exact Next Step
+- **File to open:** `app/admin/products/new/page.tsx`
+- **Task:** Milestone 5 — Implement dual-image uploader (camera capture/upload emitting 1600px WebP display version and 1200×630 <300KB WebP OG preview version).
+- **Depends on:** Real shop WhatsApp number from owner (optional, currently using placeholder).
+
+#### 📋 TBD Items Still Pending From Owner
+- Phone/WhatsApp number: ⏳ Owner TBD
+- Opening hours: ⏳ Owner TBD (using "Mon - Sat: 9:00 AM - 6:00 PM")
+- Logo file: ⏳ Wordmark active in header
+- Domain name: ⏳ Currently deployed on Vercel preview/production URLs
+
 ### Session 2026-10-05 — Live Vercel Production Deployment & Supabase Cloud Integration
 
 #### ✅ Completed This Session
@@ -785,3 +896,18 @@ At the end of every session, append a new entry at the **top** (most recent firs
 | M8 | Gallery Page & Lightbox | ✅ Complete | 2026-10-05 |
 
 **Milestone Status Key:** ⬜ Not Started → 🔄 In Progress → ✅ Complete → 🔴 Blocked
+
+
+### Session 2026-10-05 - NineFinds-beater mockup-preview rebuild
+- Rebuilt isolated route NineFinds-style thumb rows + INHOME skin, live search-sort island, featured card, arrivals rail, bespoke CTA. P0 whatsapp.ts untouched. Live site untouched.
+- Verified: tsc clean, GET :3005 200, 390px screenshot good. Prod build OPEN BUG-015 not-found invariant (needs repro).
+- Touched: app/mockup-preview/page.tsx, MockCatalogue.tsx, mockup.css, mockup-shell.css, layout.tsx. Cleaned pw-*.js.
+- Next: vibe approval to port to live app/(public); fix BUG-015; TBDs phone/hours/logo/spelling/domain.
+
+
+
+### Session 2026-10-05 - Old Option-B restored as mockup-old, localhost off (Blast: ISOLATED)
+- Goal: keep live mockup-preview untouched; restore prior Option B at separate link; turn off localhost.
+- Proof: fetch both URLs OK; app/mockup-old/page.tsx + mockup.css; PID 48932 :3005 killed.
+- Verification: prod kept NineFinds-beater; preview deploy has Option B; netstat :3005 empty.
+

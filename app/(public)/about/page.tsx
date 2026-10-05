@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   title: 'About Our Showroom & Custom Crafting | INHOME FURNITURE Kangeyam',
   description:
     'Visit the INHOME FURNITURE showroom at TCL Tower, Chennimalai Rd, Kangeyam. Custom-crafted solid teak wood, country wood, and custom furniture made to your specifications.',
+  alternates: {
+    canonical: '/about',
+  },
   openGraph: {
     title: 'About INHOME FURNITURE | Showroom & Custom Crafting Kangeyam',
     description:

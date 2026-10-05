@@ -529,3 +529,111 @@ These are recurring error classes observed in Next.js + Supabase projects. Check
   - Known iOS behavior: use `capture="environment"` — iOS may still prompt user to choose
 - File exceeds Supabase Storage 10 MB limit → upload silently fails
   - Prevention: canvas compress to WebP before upload; target < 300 KB
+
+---
+
+### BUG-015 - Next.js Build Invariant no direct app page entry for /_not-found After Route-Group Change
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | OPEN (needs isolated repro; live build was passing) |
+| **Severity** | P1 (Build breaker) |
+| **Milestone** | Mockup Preview |
+| **Found in File** | .next build output / app router layout resolution |
+| **Date Found** | 2026-10-05 |
+
+**Symptom:**
+
+pm run build compiled OK in 12.2s then failed collecting page data with Invariant: no direct app page entry found for /_not-found.
+
+**Suspected Cause:**
+New pp/mockup-preview/layout.tsx nested layout changed route-group resolution while root pp/layout.tsx wraps Header/Footer; Next expected a not-found boundary it could not resolve.
+
+**Workaround:**
+Dev server on :3005 restarted clean after .next wipe; /mockup-preview returns 200. Prod build still needs a clean isolated repro.
+
+**Next Step:**
+Try removing or simplifying pp/mockup-preview/layout.tsx, rebuild, then re-add shell isolation via CSS-only fix.
+
+---
+
+### BUG-016 - mockup-preview Page Lost Its Nested Closing Header Tag During Chunked Edit
+
+**Symptom:**
+
+px tsc --noEmit failed with JSX element 'header' has no corresponding closing tag after chunked append.
+
+**Root Cause:**
+Second chunk replaced </header> instead of appending after it.
+
+**Fix Applied:**
+Re-added missing </header> line in pp/mockup-preview/page.tsx.
+
+**Verification:**
+
+px tsc --noEmit clean.
+
+**Prevention Rule:**
+When chunk-appending JSX, replace a unique anchor inside the parent, never the parent closing tag itself.
+
+
+
+---
+
+### BUG-017 - Reverted uncommitted NineFinds work via git checkout lost local-only preview variants
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | FIXED (documented) |
+| **Severity** | P2 (Local workflow only) |
+| **Date Found** | 2026-10-05 |
+| **Date Fixed** | 2026-10-05 |
+
+**Symptom:**
+git checkout -- app/mockup-preview/* discarded uncommitted NineFinds-beater files that production Vercel had already deployed.
+
+**Root Cause:**
+Production deploy ran from uncommitted workspace; local HEAD only had Option B. Checkout aligned local with HEAD, hiding the mismatch.
+
+**Fix Applied:**
+Kept prod deploy frozen on Vercel; parked Option B at app/mockup-old on a preview deploy. No prod redeploy.
+
+**Verification:**
+Both URLs fetched 200 with expected markers; netstat :3005 empty after kill.
+
+**Prevention Rule:**
+Blast ISOLATED route-only work must be committed before checkout or prod deploy; never checkout dirty preview routes.
+
+---
+
+### BUG-018 — settings.google_rating Undefined Check in Homepage During Next.js Static Generation
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | ✅ FIXED |
+| **Severity** | P2 (TypeScript / Static Build Failure) |
+| **Milestone** | M4.5 |
+| **Found in File** | `app/(public)/page.tsx` |
+| **Line Reference** | Line 328 |
+| **Date Found** | 2026-10-05 |
+| **Date Fixed** | 2026-10-05 |
+
+**Symptom:**
+`next build` failed with `Type error: 'settings.google_rating' is possibly 'undefined'`.
+
+**Root Cause:**
+In `types/database.ts`, `Settings.google_rating` and `Settings.google_reviews_count` are defined as optional numbers (`google_rating?: number`), so accessing `.toFixed(1)` directly without nullish coalescing caused a strict TypeScript error.
+
+**Fix Applied:**
+Added explicit fallback variables in `HomePage`:
+```typescript
+const googleRating = settings.google_rating ?? 4.8;
+const googleReviewsCount = settings.google_reviews_count ?? 23;
+```
+
+**Verification:**
+`npm run build` compiled 71/71 static routes with 0 errors.
+
+**Prevention Rule:**
+Always extract settings with safe nullish coalescing defaults when rendering formatted numbers or strings in Server Components.
+

@@ -1,8 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import StickyBottomBar from '@/components/layout/StickyBottomBar';
 import { getFurnitureStoreSchema } from '@/lib/seo';
 
 export const viewport: Viewport = {
@@ -38,7 +35,7 @@ export const metadata: Metadata = {
       'Browse handcrafted sofas, dining tables, teak cots, and custom wooden furniture. Tap to enquire directly on WhatsApp.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80',
+        url: '/og-default.jpg',
         width: 1200,
         height: 630,
         alt: 'INHOME FURNITURE Showcase Kangeyam',
@@ -49,24 +46,26 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'INHOME FURNITURE | Custom Furniture Kangeyam',
     description: 'Custom-crafted solid wood furniture in Kangeyam, Tamil Nadu. Enquire directly on WhatsApp.',
-    images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80'],
+    images: ['/og-default.jpg'],
   },
-  verification: {
-    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || 'google-site-verification-token',
-  },
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+        },
+      }
+    : {}),
 };
 
 import { Suspense } from 'react';
-import { getServerShopSettings } from '@/lib/supabase-server';
 import PageViewBeacon from '@/components/analytics/PageViewBeacon';
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const storeSchema = getFurnitureStoreSchema();
-  const settings = await getServerShopSettings();
 
   return (
     <html lang="en">
@@ -86,14 +85,7 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <PageViewBeacon />
         </Suspense>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <StickyBottomBar
-          phoneNumber={settings.phone}
-          whatsappNumber={settings.whatsapp_number}
-          afterHoursNote={settings.after_hours_note}
-        />
+        {children}
       </body>
     </html>
   );

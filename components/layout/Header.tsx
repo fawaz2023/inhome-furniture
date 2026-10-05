@@ -32,10 +32,14 @@ export default function Header() {
         {/* Navigation Tabs */}
         <nav className="header-nav">
           <Link href="/" className="nav-item">
+            Home
+          </Link>
+          <Link href="/catalogue" className="nav-item">
             Catalogue
           </Link>
           <Link href="/about" className="nav-item">
-            About & Showroom
+            <span className="nav-text-desktop">About & Showroom</span>
+            <span className="nav-text-mobile">About</span>
           </Link>
           <Link href="/gallery" className="nav-item nav-item-secondary">
             Gallery
@@ -155,16 +159,32 @@ export default function Header() {
           background-color: var(--bg-surface-secondary);
         }
 
+        .nav-text-mobile {
+          display: none;
+        }
+
         @media (max-width: 640px) {
+          .google-rating-badge {
+            display: none;
+          }
+          .nav-text-desktop {
+            display: none;
+          }
+          .nav-text-mobile {
+            display: inline;
+          }
+          .header-container {
+            gap: 0.5rem;
+          }
+          .header-nav {
+            gap: 0.2rem;
+          }
           .nav-item {
-            padding: 0.35rem 0.55rem;
+            padding: 0.35rem 0.45rem;
             font-size: 0.8125rem;
           }
           .header-brand-name {
             font-size: 1.05rem;
-          }
-          .rating-label {
-            display: none;
           }
         }
       `}</style>
