@@ -637,3 +637,35 @@ const googleReviewsCount = settings.google_reviews_count ?? 23;
 **Prevention Rule:**
 Always extract settings with safe nullish coalescing defaults when rendering formatted numbers or strings in Server Components.
 
+---
+
+### BUG-019 — Next.js 15 / React 19 Style JSX Runtime TypeError: __webpack_modules__[moduleId] is not a function
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | ✅ FIXED |
+| **Severity** | P1 (Dev Server Runtime Crash) |
+| **Milestone** | Harmony Video Scroll Mockup |
+| **Found in File** | `app/harmony-mockup/HarmonyHeroVideo.tsx`, `HarmonyMockupClient.tsx`, `HarmonyPreloader.tsx` |
+| **Line Reference** | `<style jsx>` blocks |
+| **Date Found** | 2026-10-06 |
+| **Date Fixed** | 2026-10-06 |
+
+**Symptom:**
+Navigating to `http://localhost:3000/harmony-mockup` triggered a red Next.js runtime error overlay:
+`TypeError: __webpack_modules__[moduleId] is not a function`.
+
+**Root Cause:**
+Next.js 15 with React 19 does not bundle the `styled-jsx` babel/swc runtime for App Router Client Components by default. Including `<style jsx>` blocks inside client components corrupted the Webpack packfile cache (`PostCSSSyntaxError` and unresolvable module IDs).
+
+**Fix Applied:**
+1. Extracted all styles from `<style jsx>` in `HarmonyHeroVideo.tsx`, `HarmonyMockupClient.tsx`, and `HarmonyPreloader.tsx` into `app/harmony-mockup/harmony.css`.
+2. Removed all `<style jsx>` tags from component files.
+3. Cleared the `.next` cache directory and restarted `npm run dev -- --port 3000`.
+
+**Verification:**
+`GET http://localhost:3000/harmony-mockup` returned 200 OK cleanly with zero webpack runtime errors.
+
+**Prevention Rule:**
+Never use `<style jsx>` in App Router components with React 19. Always place styles in `.css` or CSS Modules.
+
