@@ -61,6 +61,25 @@ At the end of every session, append a new entry at the **top** (most recent firs
 
 ## Session Entries (Most Recent First)
 
+### Session 2026-10-06 — Harmony Video Scroll Architecture & Asset Suite (ISOLATED)
+- **Goal:** Implement Harmony Globe Habitat-inspired sticky video hero, interactive 4-scene switcher, and scroll-driven curtain reveal in `/harmony-mockup` with realistic video and poster assets.
+- **Proof:** All 5 video assets generated and compressed to < 5MB (`hero-video-showroom.mp4`, `hero-video-grain.mp4`, `hero-video-living.mp4`, `hero-video-bedroom.mp4`, `hero-video-arri.mp4`) with matching photographic posters in `public/`.
+- **Files Touched:**
+  - `[NEW]` [wireframes/wireframe-harmony-homepage-2026-10-06.md](file:///c:/Users/fawaz/Desktop/Inhome%20website/wireframes/wireframe-harmony-homepage-2026-10-06.md) — Comprehensive structural wireframe spec per `/fz-wireframer`.
+  - `[NEW]` [app/harmony-mockup/HarmonyHeroVideo.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/harmony-mockup/HarmonyHeroVideo.tsx) — Sticky 100vh video stage with interactive 4-scene switcher dock (`Showroom`, `Grain`, `Living`, `Bedroom`), play/pause controls, and scroll prompt cue.
+  - `[MODIFY]` [app/harmony-mockup/page.tsx](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/harmony-mockup/page.tsx) — Integrated `HarmonyHeroVideo` and wrapped body content into `.harm-curtain-sheet`.
+  - `[MODIFY]` [app/harmony-mockup/harmony.css](file:///c:/Users/fawaz/Desktop/Inhome%20website/app/harmony-mockup/harmony.css) — Added floating dark glass header styling and `.harm-curtain-sheet` with rounded top corners and deep shadow.
+- **Verification:**
+  - `npx tsc --noEmit` passed cleanly (exit 0).
+  - Dev server HTTP test on `http://localhost:3000/harmony-mockup` returned 200 OK.
+  - Verified presence of video element (`hero-video-showroom.mp4`), scene pills, and curtain container in rendered HTML.
+- **Exact Next Step:**
+  - Open `http://localhost:3000/harmony-mockup` in browser.
+  - Test the video playback, switch between the 4 scenes, and scroll down to observe the stage curtain slide up over the video.
+  - Once approved, promote to live homepage (`app/(public)/page.tsx`).
+
+---
+
 ### Session 2026-10-05 — Harmony-inspired homepage mockup (ISOLATED, Act mode)
 - Goal: play harmonyglobehabitat.com (React SPA shell + JS bundle, navy #010080, Cormorant+DM Sans, Kerala property marketplace) and translate its developer-style structure to INHOME catalogue language without touching live homepage.
 - Proof: raw HTML shell fetched (Vite /assets/index-Dd_JF2y9.js); live /sell page copy pulled (nav Home/About/Services/Properties/Events/Blog/Sell/Contact; RERA/privacy/footer HABRYCENTER Perinthalmanna).
