@@ -5,11 +5,7 @@ import Link from 'next/link';
 import HarmonyPreloader from './HarmonyPreloader';
 import { RotateCcw } from 'lucide-react';
 
-interface HarmonyMockupClientProps {
-  children: React.ReactNode;
-}
-
-export default function HarmonyMockupClient({ children }: HarmonyMockupClientProps) {
+export default function HarmonyMockupClient() {
   const [showPreloader, setShowPreloader] = useState(true);
   const [replayKey, setReplayKey] = useState(0);
 
@@ -30,10 +26,10 @@ export default function HarmonyMockupClient({ children }: HarmonyMockupClientPro
       )}
 
       {/* Sandbox Header Strip with Replay Control */}
-      <div className="harm-banner">
+      <aside className="harm-banner" aria-label="Mockup Controls">
         <div className="harm-banner-left">
           <span className="harm-badge-pulse" />
-          <span>Harmony Liquid Loading & Architectural Preview</span>
+          <span>Harmony Liquid Loading & Video Scroll Preview</span>
         </div>
         <div className="harm-banner-right">
           <button
@@ -49,17 +45,7 @@ export default function HarmonyMockupClient({ children }: HarmonyMockupClientPro
             Live Homepage &rarr;
           </Link>
         </div>
-      </div>
-
-      <div
-        className="harm-content-wrapper"
-        style={{
-          opacity: showPreloader ? 0.95 : 1,
-          transition: 'opacity 0.6s ease',
-        }}
-      >
-        {children}
-      </div>
+      </aside>
     </>
   );
 }

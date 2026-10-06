@@ -656,16 +656,80 @@ Navigating to `http://localhost:3000/harmony-mockup` triggered a red Next.js run
 `TypeError: __webpack_modules__[moduleId] is not a function`.
 
 **Root Cause:**
-Next.js 15 with React 19 does not bundle the `styled-jsx` babel/swc runtime for App Router Client Components by default. Including `<style jsx>` blocks inside client components corrupted the Webpack packfile cache (`PostCSSSyntaxError` and unresolvable module IDs).
+1. Next.js 15 with React 19 does not bundle the `styled-jsx` runtime for App Router Client Components by default; `<style jsx>` corrupted the Webpack module registry cache.
+2. `HarmonyMockupClient` (`'use client'`) was wrapping the entire page tree as `children`, including `<Footer />` which is an `async` Server Component. In Next.js 15 App Router, serializing an async Server Component inside a Client Component wrapper without a Suspense boundary caused Next.js DevTools Segment Explorer (`segment-explorer-node.js#SegmentViewNode`) to fail in the React Client Manifest.
+3. `/harmony-mockup` lacked an explicit `layout.tsx` segment boundary.
 
 **Fix Applied:**
 1. Extracted all styles from `<style jsx>` in `HarmonyHeroVideo.tsx`, `HarmonyMockupClient.tsx`, and `HarmonyPreloader.tsx` into `app/harmony-mockup/harmony.css`.
-2. Removed all `<style jsx>` tags from component files.
-3. Cleared the `.next` cache directory and restarted `npm run dev -- --port 3000`.
+2. Decoupled `HarmonyMockupClient` into a self-closing leaf component so it no longer wraps the async server component tree.
+3. Added `app/harmony-mockup/layout.tsx` to provide an explicit segment boundary.
+4. Cleared `.next` cache and restarted dev server.
 
 **Verification:**
-`GET http://localhost:3000/harmony-mockup` returned 200 OK cleanly with zero webpack runtime errors.
+`GET http://localhost:3000/harmony-mockup` compiled in 4.9s (807 modules) and returned 200 OK cleanly with zero errors in server log.
 
 **Prevention Rule:**
-Never use `<style jsx>` in App Router components with React 19. Always place styles in `.css` or CSS Modules.
+1. Never use `<style jsx>` in App Router components with React 19.
+2. Never pass async Server Components as children into Client Component wrappers without Suspense.
+3. Always provide an explicit `layout.tsx` segment boundary for standalone test routes.
+
+---
+
+### BUG-020 — ReferenceError: Pause is not defined in HarmonyHeroVideo.tsx
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | ✅ FIXED |
+| **Severity** | P1 (Dev Server Runtime Crash) |
+| **Milestone** | Harmony Video Scroll Mockup |
+| **Found in File** | `app/harmony-mockup/HarmonyHeroVideo.tsx` |
+| **Line Reference** | Line 164 |
+| **Date Found** | 2026-10-06 |
+| **Date Fixed** | 2026-10-06 |
+
+**Symptom:**
+Navigating to `http://localhost:3000/harmony-mockup` triggered a 500 error: `ReferenceError: Pause is not defined at HarmonyHeroVideo`.
+
+**Root Cause:**
+`Pause` and `Play` icons were referenced inside the center play ring JSX but were omitted from the `lucide-react` import statement.
+
+**Fix Applied:**
+Added `Play` and `Pause` to `lucide-react` imports in `app/harmony-mockup/HarmonyHeroVideo.tsx` and removed the unused `HarmonyPlayRing` import and orphaned file.
+
+**Verification:**
+Verified via Playwright test: Center play ring renders and toggles video play/pause with zero runtime errors.
+
+**Prevention Rule:**
+Always verify all referenced JSX icons are imported in the file's top import header.
+
+---
+
+### BUG-021 — Sliding Header Did Not Stick to Viewport Due to Parent overflow-x: hidden
+
+| Field | Value |
+| :--- | :--- |
+| **Status** | ✅ FIXED |
+| **Severity** | P2 (Visual Regression) |
+| **Milestone** | Harmony Video Scroll Mockup |
+| **Found in File** | `app/harmony-mockup/harmony.css` |
+| **Line Reference** | Line 16 |
+| **Date Found** | 2026-10-06 |
+| **Date Fixed** | 2026-10-06 |
+
+**Symptom:**
+When scrolling down past the hero, `.harm-header-revealed` was added to `.header-wrapper`, but the header did not stick to the top of the mobile viewport.
+
+**Root Cause:**
+The header used `position: sticky; top: 0;`, but its parent `.harm-page` had `overflow-x: hidden;`. In CSS specification, any ancestor with non-visible overflow breaks `position: sticky` relative to the viewport window.
+
+**Fix Applied:**
+Converted `.harm-page .header-wrapper` from `position: sticky` to `position: fixed; top: 0; left: 0; right: 0; width: 100%;`. Also debounced the scroll orchestrator using passive scroll with `requestAnimationFrame`.
+
+**Verification:**
+Verified via Playwright mobile test and screenshot: Header cleanly transitions into view at the top of the mobile screen when scrolled, and slides away when returning to top.
+
+**Prevention Rule:**
+Never use `position: sticky` inside a container styled with `overflow: hidden` or `overflow-x: hidden`. Use `position: fixed` for floating/sliding navigation shells.
+
 

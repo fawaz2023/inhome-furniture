@@ -69,12 +69,30 @@ interface HarmonyHeroVideoProps {
 export default function HarmonyHeroVideo({ customOrderWhatsAppUrl }: HarmonyHeroVideoProps) {
   const [activeSceneId, setActiveSceneId] = useState<string>('showroom');
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [showControls, setShowControls] = useState<boolean>(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const activeScene = SCENES.find((s) => s.id === activeSceneId) || SCENES[0];
 
+  const resetHideTimer = () => {
+    setShowControls(true);
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  };
+
+  React.useEffect(() => {
+    resetHideTimer();
+    return () => {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, []);
+
   const handleSelectScene = (scene: Scene) => {
     setActiveSceneId(scene.id);
+    resetHideTimer();
     if (videoRef.current) {
       videoRef.current.load();
       videoRef.current.play().catch(() => {
@@ -89,10 +107,18 @@ export default function HarmonyHeroVideo({ customOrderWhatsAppUrl }: HarmonyHero
     if (isPlaying) {
       videoRef.current.pause();
       setIsPlaying(false);
+      setShowControls(true);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     } else {
       videoRef.current.play();
       setIsPlaying(true);
+      resetHideTimer();
     }
+  };
+
+  const handleRingClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    togglePlay();
   };
 
   const scrollToContent = () => {
@@ -103,7 +129,11 @@ export default function HarmonyHeroVideo({ customOrderWhatsAppUrl }: HarmonyHero
   };
 
   return (
-    <div className="harm-video-hero-stage">
+    <div
+      className="harm-video-hero-stage"
+      onMouseMove={resetHideTimer}
+      onTouchStart={resetHideTimer}
+    >
       {/* 1. Background Video Layer */}
       <video
         ref={videoRef}
@@ -122,7 +152,34 @@ export default function HarmonyHeroVideo({ customOrderWhatsAppUrl }: HarmonyHero
       {/* 2. Gradient Vignette Overlay for Crisp Readability */}
       <div className="harm-hero-overlay-shade" />
 
-      {/* 3. Hero Content Overlay */}
+      {/* 3. Center Cinematic Play/Pause Ring (Harmony Globe Habitat pattern) */}
+      <button
+        type="button"
+        onClick={handleRingClick}
+        className={`harm-play-ring ${!showControls && isPlaying ? 'harm-play-ring-hidden' : ''}`}
+        aria-label={isPlaying ? 'Pause video preview' : 'Play video preview'}
+        title={isPlaying ? 'Pause video preview' : 'Play video preview'}
+      >
+        <div className="harm-play-ring-inner">
+          {isPlaying ? (
+            <Pause size={28} className="harm-play-ring-icon" fill="currentColor" />
+          ) : (
+            <Play size={28} className="harm-play-ring-icon harm-play-icon-offset" fill="currentColor" />
+          )}
+        </div>
+      </button>
+
+      {/* 4. Floating Brand Pill (visible BEFORE header slides in — Harmony Globe Habitat pattern) */}
+      <div className="harm-brand-pill" aria-label="INHOME FURNITURE">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        <span className="brand-pill-name">INHOME</span>
+        <span className="brand-pill-sub">FURNITURE</span>
+      </div>
+
+      {/* 5. Hero Content Overlay */}
       <div className="harm-hero-content-layer">
         <div className="harm-hero-inner-container">
           <div className="harm-eye">
@@ -164,7 +221,7 @@ export default function HarmonyHeroVideo({ customOrderWhatsAppUrl }: HarmonyHero
         </div>
       </div>
 
-      {/* 4. Interactive Scene Switcher Bar */}
+      {/* 6. Interactive Scene Switcher Bar */}
       <div className="harm-scene-switcher-panel">
         <div className="harm-switcher-label">
           <Layers size={13} />
@@ -188,17 +245,6 @@ export default function HarmonyHeroVideo({ customOrderWhatsAppUrl }: HarmonyHero
             );
           })}
         </div>
-
-        {/* Video Play/Pause Toggle */}
-        <button
-          type="button"
-          onClick={togglePlay}
-          className="harm-video-playback-toggle"
-          title={isPlaying ? 'Pause video' : 'Play video'}
-          aria-label={isPlaying ? 'Pause video' : 'Play video'}
-        >
-          {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-        </button>
       </div>
 
       {/* 5. Scroll Prompt Cue */}

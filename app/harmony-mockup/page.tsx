@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import './harmony.css';
 import HarmonyMockupClient from './HarmonyMockupClient';
+import HarmonyScrollOrchestrator from './HarmonyScrollOrchestrator';
+import HarmonyStatsCounter from './HarmonyStatsCounter';
 import HarmonyHeroVideo from './HarmonyHeroVideo';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -62,16 +64,18 @@ export default function HarmonyMockupPage() {
   );
 
   const stats = [
-    { value: '17', label: 'Curated Collections', sub: 'Living, Dining, Bedroom & Puja' },
-    { value: '4.8★', label: 'Google Rated', sub: 'Verified Kangeyam Showroom' },
-    { value: '100%', label: 'Solid Wood Timber', sub: 'Seasoned Nilambur Teak' },
-    { value: '1 : 1', label: 'Bespoke Consultation', sub: 'Direct on WhatsApp' },
+    { value: '17', label: 'Curated Collections', sub: 'Living, Dining, Bedroom & Puja', target: '17', suffix: '', decimals: '0', animate: true },
+    { value: '4.8★', label: 'Google Rated', sub: 'Verified Kangeyam Showroom', target: '4.8', suffix: '★', decimals: '1', animate: true },
+    { value: '100%', label: 'Solid Wood Timber', sub: 'Seasoned Nilambur Teak', target: '100', suffix: '%', decimals: '0', animate: true },
+    { value: '1 : 1', label: 'Bespoke Consultation', sub: 'Direct on WhatsApp', animate: false },
   ];
 
   return (
-    <HarmonyMockupClient>
-      <div className="harm-page">
-        <Header />
+    <div className="harm-page">
+      <HarmonyMockupClient />
+      <HarmonyScrollOrchestrator />
+      <HarmonyStatsCounter />
+      <Header />
 
       <main className="harm-main">
         {/* 1. Harmony Sticky Video Hero with 4 Scene Switchers */}
@@ -79,18 +83,31 @@ export default function HarmonyMockupPage() {
 
         {/* 2. Harmony Rising Curtain Sheet (Scrollable Content Body) */}
         <div id="harmony-content-sheet" className="harm-curtain-sheet">
+          {/* Sentinel: IntersectionObserver watches this to know when user has scrolled past the hero */}
+          <div id="harm-scroll-sentinel" aria-hidden="true" style={{ position: 'absolute', top: 0, height: '1px', width: '100%', pointerEvents: 'none' }} />
           {/* Architectural Stats Strip */}
           <section className="harm-stats-section" aria-label="Key Trust Metrics">
             <div className="harm-stats-grid">
               {stats.map((s) => (
                 <div key={s.label} className="harm-stat-card">
-                  <span className="harm-stat-val">{s.value}</span>
-                <span className="harm-stat-label">{s.label}</span>
-                <span className="harm-stat-sub">{s.sub}</span>
-              </div>
-            ))}
-          </div>
-        </section>
+                  {s.animate ? (
+                    <span
+                      className="harm-stat-val harm-counter"
+                      data-target={s.target}
+                      data-suffix={s.suffix}
+                      data-decimals={s.decimals}
+                    >
+                      {s.value}
+                    </span>
+                  ) : (
+                    <span className="harm-stat-val">{s.value}</span>
+                  )}
+                  <span className="harm-stat-label">{s.label}</span>
+                  <span className="harm-stat-sub">{s.sub}</span>
+                </div>
+              ))}
+            </div>
+          </section>
 
         {/* 3. The Nilambur Teak Distinction (Architectural Minimalist) */}
         <section className="harm-sec">
@@ -134,7 +151,7 @@ export default function HarmonyMockupPage() {
           </div>
         </section>
 
-        {/* 4. Portfolio / Curated Collections Grid */}
+        {/* 4. Portfolio / Curated Collections Horizontal Swipe Rail */}
         <section className="harm-sec">
           <div className="harm-head">
             <div>
@@ -147,7 +164,7 @@ export default function HarmonyMockupPage() {
             </Link>
           </div>
 
-          <div className="harm-grid">
+          <div className="harm-cat-rail">
             {spotlightCats.map((cat) => (
               <CategoryCard key={cat.id} category={cat} />
             ))}
@@ -296,6 +313,5 @@ export default function HarmonyMockupPage() {
         afterHoursNote={settings.after_hours_note}
       />
     </div>
-  </HarmonyMockupClient>
-);
+  );
 }
